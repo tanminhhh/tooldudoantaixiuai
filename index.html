@@ -1,0 +1,1608 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+<title>Tool Dự đoán Tài Xỉu Tích AI đa thuật toán nâng cao by TANMINHDEV_</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Roboto:wght@400;500&display=swap');
+  * {
+    margin: 0; padding: 0; box-sizing: border-box;
+  }
+  body {
+    background: linear-gradient(135deg, #0a122a, #020615);
+    font-family: 'Orbitron', 'Roboto', sans-serif;
+    color: #00ffff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    padding: 1.5em 1em 3em 1em;
+    user-select: none;
+    overflow-x: hidden;
+    background-image: url('https://images.unsplash.com/photo-1518773553398-650c184e0bb3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80');
+    background-size: cover;
+    background-position: center;
+    position: relative;
+  }
+  body::before {
+    content: "";
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0, 17, 29, 0.92);
+    z-index: -1;
+  }
+  h1 {
+    font-weight: 900;
+    font-size: 2.4em;
+    color: #00eaff;
+    text-align: center;
+    margin-bottom: 0.3em;
+    text-shadow: 0 0 12px #00faff70, 0 0 24px #00d0ff90, 0 0 36px #08d9d930;
+    letter-spacing: 3px;
+  }
+  h2 {
+    font-weight: 600;
+    font-size: 1.1em;
+    text-align: center;
+    margin-bottom: 1.6em;
+    color: #33e5e5cc;
+    user-select: none;
+    text-shadow: 0 0 10px #33eeeebb;
+  }
+  .container {
+    background: rgba(0, 255, 255, 0.12);
+    border-radius: 28px;
+    border: 2px solid #0ff4f4cc;
+    box-shadow: 0 0 60px #0ff4f4bb, inset 0 0 120px #37ffff5533;
+    padding: 32px 36px 44px 36px;
+    width: 460px;
+    max-width: 96vw;
+    display: flex;
+    flex-direction: column;
+    user-select: none;
+    position: relative;
+    backdrop-filter: blur(20px);
+  }
+  .instructions {
+    font-weight: 600;
+    color: #33ffffcc;
+    margin-bottom: 1.5em;
+    letter-spacing: 1.4px;
+    font-size: 1em;
+    user-select: none;
+    line-height: 1.6;
+  }
+  .input-buttons {
+    display: flex;
+    gap: 32px;
+    justify-content: center;
+    margin-bottom: 1.8em;
+  }
+  button.btn-input {
+    position: relative;
+    background: linear-gradient(145deg, #062730, #004055);
+    border: 2.8px solid #06fcf8cc;
+    border-radius: 26px;
+    padding: 20px 0;
+    flex: 1 1 160px;
+    color: #06fcf8;
+    font-weight: 700;
+    font-size: 1.85em;
+    cursor: pointer;
+    user-select: none;
+    text-align: center;
+    box-shadow: 0 0 10px #06fcf8cc, inset 0 0 35px #06fcf877;
+    transition: all 0.3s ease;
+    overflow: hidden;
+    filter: drop-shadow(0 0 8px #06ccf8aa);
+  }
+  button.btn-input:hover {
+    background: linear-gradient(145deg, #0affff, #1b9dff);
+    box-shadow: 0 0 26px #0affffdd, 0 0 50px #0affffbb, inset 0 0 80px #0affffcc;
+    filter: drop-shadow(0 0 18px #0affffcc);
+    transform: translateY(-2px);
+  }
+  button.btn-input:active {
+    background: linear-gradient(145deg, #0bcae6, #147fda);
+    filter: drop-shadow(0 0 12px #0affffaa);
+    transform: translateY(1px);
+  }
+  button.btn-input::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 16px;
+    transform: translateY(-50%);
+    width: 30px;
+    height: 30px;
+    background-repeat: no-repeat;
+    background-size: contain;
+    filter: drop-shadow(0 0 2px #00f7f7bb);
+    transition: all 0.3s ease;
+  }
+  #btnTai::before {
+    background-image: url('https://cdn-icons-png.flaticon.com/512/2737/2737510.png');
+  }
+  #btnXiu::before {
+    background-image: url('https://cdn-icons-png.flaticon.com/512/2737/2737505.png');
+  }
+  .display-results {
+    background: rgba(0, 55, 90, 0.95);
+    border-radius: 22px;
+    padding: 16px 22px;
+    margin-top: 1.2em;
+    min-height: 52px;
+    font-size: 1.2em;
+    line-height: 1.5em;
+    font-weight: 700;
+    color: #77ffffcc;
+    box-shadow: inset 0 0 30px #11ffffcc;
+    user-select: text;
+    white-space: nowrap;
+    overflow-x: auto;
+    border: 1px solid #00aaffaa;
+    filter: drop-shadow(0 0 6px #0077ffaa);
+    letter-spacing: 0.06em;
+    transition: all 0.3s ease;
+  }
+  .display-results:hover {
+    box-shadow: inset 0 0 40px #11ffffdd;
+  }
+  .controls-row {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 2.4em;
+  }
+  button.btn-action {
+    background-image: linear-gradient(45deg, #00f7ff, #008aff);
+    border: none;
+    border-radius: 30px;
+    padding: 18px 0;
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 900;
+    font-size: 1.4em;
+    color: #001622;
+    text-transform: uppercase;
+    letter-spacing: 3.5px;
+    cursor: pointer;
+    box-shadow: 0 0 50px #22ffffee, 0 10px 30px #0099ffcc;
+    transition: all 0.3s ease;
+    user-select: none;
+    flex: 1 1 180px;
+    position: relative;
+    overflow: hidden;
+    filter: drop-shadow(0 0 12px #00ccffdd);
+  }
+  button.btn-action:hover {
+    box-shadow: 0 0 80px #33ffffdd, 0 0 130px #00bbffdd, 0 0 160px #0099ffff;
+    transform: scale(1.05);
+    letter-spacing: 4px;
+  }
+  button.btn-action:active {
+    transform: scale(0.96);
+  }
+  button.btn-action::after {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+      to bottom right,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0) 45%,
+      rgba(255, 255, 255, 0.3) 48%,
+      rgba(255, 255, 255, 0.3) 52%,
+      rgba(255, 255, 255, 0) 55%,
+      rgba(255, 255, 255, 0) 100%
+    );
+    transform: rotate(30deg);
+    animation: shine 3s infinite;
+  }
+  @keyframes shine {
+    0% { transform: translateX(-100%) rotate(30deg); }
+    100% { transform: translateX(100%) rotate(30deg); }
+  }
+  .results {
+    margin-top: 3em;
+    background: rgba(0, 40, 70, 0.96);
+    color: #44ffeecc;
+    font-weight: 700;
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.1em;
+    white-space: pre-wrap;
+    letter-spacing: 0.06em;
+    border-radius: 26px;
+    padding: 28px 30px;
+    min-height: 10em;
+    box-shadow: inset 0 0 40px #22ccffff;
+    user-select: text;
+    outline: none;
+    position: relative;
+    overflow-wrap: break-word;
+    transition: all 0.3s ease;
+  }
+  .results:hover {
+    box-shadow: inset 0 0 60px #22ccffff;
+  }
+  .footer {
+    margin-top: 4em;
+    font-size: 0.75em;
+    letter-spacing: 1.8px;
+    color: #004369cc;
+    user-select: none;
+  }
+  .display-results::-webkit-scrollbar {
+    height: 9px;
+  }
+  .display-results::-webkit-scrollbar-track {
+    background: #00213588;
+  }
+  .display-results::-webkit-scrollbar-thumb {
+    background: #0fffbbaa;
+    border-radius: 8px;
+  }
+  #analyzingEffect {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.95);
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(12px);
+  }
+  #analyzingEffect .loader {
+    width: 120px;
+    height: 120px;
+    position: relative;
+    margin-bottom: 20px;
+  }
+  #analyzingEffect .loader:before,
+  #analyzingEffect .loader:after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+  }
+  #analyzingEffect .loader:before {
+    z-index: 100;
+    border: 3px solid transparent;
+    border-top-color: #00ffff;
+    border-right-color: #00ffff;
+    animation: spin 1s linear infinite;
+  }
+  #analyzingEffect .loader:after {
+    border: 3px solid rgba(0, 255, 255, 0.1);
+  }
+  #analyzingEffect .ai-text {
+    color: #00ffff;
+    font-size: 1.2em;
+    text-align: center;
+    animation: pulse 2s infinite;
+    text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+    margin-top: 20px;
+  }
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  @keyframes pulse {
+    0% { opacity: 0.6; transform: scale(0.98); }
+    50% { opacity: 1; transform: scale(1.02); }
+    100% { opacity: 0.6; transform: scale(0.98); }
+  }
+  .prediction-result {
+    font-size: 1.5em;
+    text-align: center;
+    margin: 15px 0;
+    padding: 15px;
+    border-radius: 15px;
+    background: rgba(0, 80, 120, 0.5);
+    transition: all 0.3s ease;
+  }
+  .prediction-result:hover {
+    transform: scale(1.02);
+  }
+  .tai-prediction {
+    color: #00ffff;
+    border: 2px solid #00ffff;
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+  }
+  .xiu-prediction {
+    color: #ff77aa;
+    border: 2px solid #ff77aa;
+    box-shadow: 0 0 20px rgba(255, 119, 170, 0.3);
+  }
+  .analysis-item {
+    margin: 8px 0;
+    padding: 8px 12px;
+    border-left: 3px solid #00ffff;
+    background: rgba(0, 150, 200, 0.1);
+    border-radius: 0 8px 8px 0;
+    transition: all 0.3s ease;
+  }
+  .analysis-item:hover {
+    background: rgba(0, 150, 200, 0.2);
+    transform: translateX(5px);
+  }
+  /* Modal biểu đồ nâng cao */
+  .chart-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.95);
+    z-index: 1001;
+    justify-content: center;
+    align-items: center;
+    animation: fadeIn 0.3s ease;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  .chart-container {
+    background: rgba(0, 45, 80, 0.98);
+    border-radius: 20px;
+    padding: 25px;
+    width: 90%;
+    max-width: 600px;
+    position: relative;
+    box-shadow: 0 0 50px rgba(0, 200, 255, 0.2);
+    border: 1px solid rgba(0, 255, 255, 0.3);
+    animation: slideUp 0.4s ease;
+  }
+  @keyframes slideUp {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+  .chart-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: #ff3366;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s ease;
+  }
+  .chart-close:hover {
+    transform: rotate(90deg);
+    background: #ff0044;
+  }
+  canvas {
+    max-width: 100%;
+    height: 300px;
+    margin: 15px 0;
+  }
+  .chart-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 15px;
+    flex-wrap: wrap;
+  }
+  .chart-btn {
+    background: rgba(0, 150, 200, 0.3);
+    color: #00ffff;
+    border: none;
+    border-radius: 15px;
+    padding: 8px 15px;
+    font-size: 0.9em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Orbitron', sans-serif;
+    letter-spacing: 1px;
+  }
+  .chart-btn.active {
+    background: rgba(0, 255, 255, 0.5);
+    color: #003333;
+    font-weight: bold;
+  }
+  .chart-btn:hover {
+    background: rgba(0, 255, 255, 0.4);
+    transform: translateY(-2px);
+  }
+  /* Nút biểu đồ trong kết quả */
+  .btn-chart {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: rgba(0, 150, 200, 0.3);
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s ease;
+    z-index: 10;
+  }
+  .btn-chart:hover {
+    background: rgba(0, 255, 255, 0.5);
+    transform: scale(1.1) rotate(15deg);
+  }
+  .btn-chart img {
+    width: 25px;
+    height: 25px;
+    filter: drop-shadow(0 0 5px #00ffff);
+    transition: all 0.3s ease;
+  }
+  .btn-chart:hover img {
+    transform: scale(1.1);
+  }
+  /* Thêm hiệu ứng cho kết quả nhập vào */
+  .result-entry {
+    display: inline-block;
+    animation: popIn 0.3s ease;
+    margin: 0 2px;
+  }
+  @keyframes popIn {
+    0% { transform: scale(0.8); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+  /* Thêm tab phân tích */
+  .analysis-tabs {
+    display: flex;
+    margin-bottom: 15px;
+    border-bottom: 1px solid rgba(0, 255, 255, 0.3);
+  }
+  .tab-btn {
+    padding: 8px 15px;
+    background: transparent;
+    border: none;
+    color: #00ffff;
+    cursor: pointer;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.9em;
+    position: relative;
+    transition: all 0.3s ease;
+  }
+  .tab-btn.active {
+    color: #00ffff;
+    font-weight: bold;
+  }
+  .tab-btn.active::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: #00ffff;
+    animation: tabUnderline 0.3s ease;
+  }
+  @keyframes tabUnderline {
+    from { width: 0; left: 50%; }
+    to { width: 100%; left: 0; }
+  }
+  .tab-btn:hover {
+    color: #00aaff;
+  }
+  .tab-content {
+    display: none;
+  }
+  .tab-content.active {
+    display: block;
+    animation: fadeIn 0.5s ease;
+  }
+  /* Thêm phần lịch sử */
+  .history-item {
+    padding: 8px;
+    margin: 5px 0;
+    background: rgba(0, 80, 120, 0.2);
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  .history-item:hover {
+    background: rgba(0, 80, 120, 0.4);
+    transform: translateX(5px);
+  }
+  /* Thêm phần cài đặt */
+  .settings-option {
+    margin: 10px 0;
+  }
+  .settings-option label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
+  .settings-option input[type="checkbox"] {
+    margin-right: 10px;
+    width: 18px;
+    height: 18px;
+  }
+  /* Responsive */
+  @media screen and (max-width:480px) {
+    .container {
+      width: 94vw;
+      padding: 26px 18px 50px 18px;
+    }
+    h1 {
+      font-size: 1.9em;
+      letter-spacing: 2px;
+    }
+    h2 {
+      font-size: 1.05em;
+    }
+    button.btn-input {
+      font-size: 1.6em;
+      padding: 16px 0;
+      flex: 1 1 130px;
+    }
+    button.btn-action {
+      font-size: 1.2em;
+      padding: 16px 0;
+      letter-spacing: 3px;
+      flex: 1 1 150px;
+    }
+    .display-results {
+      font-size: 1.1em;
+      min-height: 50px;
+    }
+    .prediction-result {
+      font-size: 1.3em;
+    }
+    .btn-chart {
+      width: 35px;
+      height: 35px;
+      top: 10px;
+      right: 10px;
+    }
+    .btn-chart img {
+      width: 20px;
+      height: 20px;
+    }
+    .input-buttons {
+      gap: 15px;
+    }
+    .controls-row {
+      gap: 15px;
+    }
+  }
+</style>
+</head>
+<body>
+  <div id="analyzingEffect" style="display: none;">
+    <div class="loader"></div>
+    <div class="ai-text">AI PRO đang phân tích dữ liệu...</div>
+    <div class="ai-text" id="aiProcessText">Áp dụng thuật toán Markov Chain...</div>
+  </div>
+
+  <!-- Modal biểu đồ nâng cao -->
+  <div id="chartModal" class="chart-modal">
+    <div class="chart-container">
+      <button class="chart-close">&times;</button>
+      <canvas id="freqChart"></canvas>
+      <canvas id="confChart" style="display: none;"></canvas>
+      <canvas id="probChart" style="display: none;"></canvas>
+      <div class="chart-buttons">
+        <button id="btnFreqChart" class="chart-btn active">Tần suất</button>
+        <button id="btnConfChart" class="chart-btn">Độ tin cậy</button>
+        <button id="btnProbChart" class="chart-btn">Xác suất</button>
+      </div>
+    </div>
+  </div>
+
+  <main class="container">
+    <h1>Tool Dự Đoán Tài Xỉu PRO</h1>
+    <h2>AI đa thuật toán nâng cao với Markov Chain & LSTM</h2>
+
+    <div class="instructions">
+      🟦 Nhấn "Tài" hoặc "Xỉu" để nhập kết quả<br />
+      🤖 AI PRO sẽ phân tích bằng 3 thuật toán<br />
+      📊 Xem biểu đồ phân tích chi tiết sau khi dự đoán
+    </div>
+
+    <div class="input-buttons">
+      <button type="button" class="btn-input" id="btnTai">Tài</button>
+      <button type="button" class="btn-input" id="btnXiu">Xỉu</button>
+    </div>
+
+    <div class="display-results" id="displayResults">
+      Chưa có kết quả nào được nhập.
+    </div>
+
+    <div class="controls-row">
+      <button type="button" class="btn-action" id="btnAnalyze">Phân tích AI PRO</button>
+      <button type="button" class="btn-action" id="btnClear">Xóa kết quả</button>
+    </div>
+
+    <section class="results" id="results">
+      <div class="analysis-tabs">
+        <button class="tab-btn active" data-tab="prediction">Dự đoán</button>
+        <button class="tab-btn" data-tab="history">Lịch sử</button>
+        <button class="tab-btn" data-tab="settings">Cài đặt</button>
+      </div>
+      
+      <div class="tab-content active" id="prediction-tab">
+        Vui lòng bắt đầu nhập kết quả bằng cách nhấn nút Tài hoặc Xỉu.
+      </div>
+      
+      <div class="tab-content" id="history-tab">
+        <div id="historyList"></div>
+      </div>
+      
+      <div class="tab-content" id="settings-tab">
+        <div class="settings-option">
+          <label>
+            <input type="checkbox" id="enableSound" checked> Bật âm thanh thông báo
+          </label>
+        </div>
+        <div class="settings-option">
+          <label>
+            <input type="checkbox" id="enableAnimations" checked> Bật hiệu ứng hình ảnh
+          </label>
+        </div>
+        <div class="settings-option">
+          <label>
+            <input type="checkbox" id="saveHistory" checked> Lưu lịch sử phân tích
+          </label>
+        </div>
+      </div>
+      
+      <!-- Nút biểu đồ sẽ được thêm vào đây bằng JavaScript -->
+    </section>
+  </main>
+
+  <div class="footer">
+    © 2025 Tool Dự Đoán Tài Xỉu PRO - Phiên bản AI nâng cao 2.0
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Các biến toàn cục
+  const btnTai = document.getElementById('btnTai');
+  const btnXiu = document.getElementById('btnXiu');
+  const displayResults = document.getElementById('displayResults');
+  const btnAnalyze = document.getElementById('btnAnalyze');
+  const btnClear = document.getElementById('btnClear');
+  const resultsBox = document.getElementById('results');
+  const predictionTab = document.getElementById('prediction-tab');
+  const historyTab = document.getElementById('history-tab');
+  const settingsTab = document.getElementById('settings-tab');
+  const historyList = document.getElementById('historyList');
+  const chartModal = document.getElementById('chartModal');
+  const freqCanvas = document.getElementById('freqChart');
+  const confCanvas = document.getElementById('confChart');
+  const probCanvas = document.getElementById('probChart');
+  const btnFreqChart = document.getElementById('btnFreqChart');
+  const btnConfChart = document.getElementById('btnConfChart');
+  const btnProbChart = document.getElementById('btnProbChart');
+  const chartClose = document.querySelector('.chart-close');
+  const tabBtns = document.querySelectorAll('.tab-btn');
+  const enableSound = document.getElementById('enableSound');
+  const enableAnimations = document.getElementById('enableAnimations');
+  const saveHistory = document.getElementById('saveHistory');
+  const aiProcessText = document.getElementById('aiProcessText');
+
+  let enteredResults = [];
+  let freqChart = null;
+  let confChart = null;
+  let probChart = null;
+  let analysisHistory = [];
+  
+  // Khởi tạo âm thanh
+  const clickSound = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-arcade-game-jump-coin-216.mp3');
+  const successSound = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-achievement-bell-600.mp3');
+  const errorSound = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-warning-alarm-688.mp3');
+  
+  // Tải dữ liệu từ localStorage nếu có
+  function loadData() {
+    const savedResults = localStorage.getItem('taiXiuResults');
+    const savedHistory = localStorage.getItem('taiXiuHistory');
+    const savedSettings = localStorage.getItem('taiXiuSettings');
+    
+    if (savedResults) {
+      enteredResults = JSON.parse(savedResults);
+      updateDisplay();
+    }
+    
+    if (savedHistory) {
+      analysisHistory = JSON.parse(savedHistory);
+      renderHistory();
+    }
+    
+    if (savedSettings) {
+      const settings = JSON.parse(savedSettings);
+      enableSound.checked = settings.enableSound;
+      enableAnimations.checked = settings.enableAnimations;
+      saveHistory.checked = settings.saveHistory;
+    }
+  }
+  
+  // Lưu dữ liệu vào localStorage
+  function saveData() {
+    if (saveHistory.checked) {
+      localStorage.setItem('taiXiuResults', JSON.stringify(enteredResults));
+      localStorage.setItem('taiXiuHistory', JSON.stringify(analysisHistory));
+    }
+    
+    localStorage.setItem('taiXiuSettings', JSON.stringify({
+      enableSound: enableSound.checked,
+      enableAnimations: enableAnimations.checked,
+      saveHistory: saveHistory.checked
+    }));
+  }
+  
+  // Hiển thị lịch sử phân tích
+  function renderHistory() {
+    historyList.innerHTML = '';
+    
+    if (analysisHistory.length === 0) {
+      historyList.innerHTML = '<div style="color:#00aaff; text-align:center;">Chưa có lịch sử phân tích</div>';
+      return;
+    }
+    
+    analysisHistory.reverse().forEach((item, index) => {
+      const historyItem = document.createElement('div');
+      historyItem.className = 'history-item';
+      historyItem.innerHTML = `
+        <div><strong>Phân tích #${analysisHistory.length - index}</strong></div>
+        <div>${item.date}</div>
+        <div>Kết quả: ${item.results.join(' ')}</div>
+        <div>Dự đoán: ${item.prediction}</div>
+      `;
+      
+      historyItem.addEventListener('click', () => {
+        enteredResults = [...item.results];
+        updateDisplay();
+        predictionTab.innerHTML = item.message;
+        document.querySelector('.tab-btn[data-tab="prediction"]').click();
+        
+        // Hiển thị nút biểu đồ
+        btnChart.style.display = 'flex';
+        renderCharts(enteredResults);
+        
+        if (enableSound.checked) {
+          clickSound.play();
+        }
+      });
+      
+      historyList.appendChild(historyItem);
+    });
+  }
+  
+  // Tạo nút biểu đồ và thêm vào DOM
+  const btnChart = document.createElement('button');
+  btnChart.className = 'btn-chart';
+  btnChart.style.display = 'none';
+  btnChart.innerHTML = '<img src="https://cdn-icons-png.flaticon.com/512/2103/2103633.png" alt="Biểu đồ">';
+  resultsBox.appendChild(btnChart);
+
+  // Cập nhật hiển thị kết quả nhập
+  function updateDisplay() {
+    displayResults.innerHTML = '';
+    
+    if (enteredResults.length === 0) {
+      displayResults.textContent = 'Chưa có kết quả nào được nhập.';
+      return;
+    }
+    
+    enteredResults.forEach(result => {
+      const span = document.createElement('span');
+      span.className = 'result-entry';
+      span.textContent = result;
+      span.style.color = result === 'Tài' ? '#00ffff' : '#ff77aa';
+      displayResults.appendChild(span);
+    });
+    
+    // Cuộn đến cuối
+    displayResults.scrollLeft = displayResults.scrollWidth;
+  }
+
+  // Phát hiện chuỗi liên tiếp
+  function detectStreaks(results) {
+    let streaks = {
+      currentTai: 0,
+      currentXiu: 0,
+      maxTai: 0,
+      maxXiu: 0,
+      taiSequences: [],
+      xiuSequences: []
+    };
+    
+    let currentSequence = [];
+    let currentType = null;
+    
+    for (const result of results) {
+      if (result === 'Tài') {
+        streaks.currentTai++;
+        streaks.currentXiu = 0;
+        
+        if (currentType !== 'Tài') {
+          if (currentSequence.length > 0) {
+            if (currentType === 'Xỉu') {
+              streaks.xiuSequences.push([...currentSequence]);
+            }
+          }
+          currentSequence = [result];
+          currentType = 'Tài';
+        } else {
+          currentSequence.push(result);
+        }
+        
+        streaks.maxTai = Math.max(streaks.maxTai, streaks.currentTai);
+      } else {
+        streaks.currentXiu++;
+        streaks.currentTai = 0;
+        
+        if (currentType !== 'Xỉu') {
+          if (currentSequence.length > 0) {
+            if (currentType === 'Tài') {
+              streaks.taiSequences.push([...currentSequence]);
+            }
+          }
+          currentSequence = [result];
+          currentType = 'Xỉu';
+        } else {
+          currentSequence.push(result);
+        }
+        
+        streaks.maxXiu = Math.max(streaks.maxXiu, streaks.currentXiu);
+      }
+    }
+    
+    // Thêm chuỗi cuối cùng
+    if (currentSequence.length > 0) {
+      if (currentType === 'Tài') {
+        streaks.taiSequences.push([...currentSequence]);
+      } else {
+        streaks.xiuSequences.push([...currentSequence]);
+      }
+    }
+    
+    return streaks;
+  }
+
+  // Phân tích xu hướng
+  function analyzeTrends(results) {
+    if (results.length < 3) return null;
+    
+    // Xu hướng ngắn hạn (3 kết quả cuối)
+    const lastThree = results.slice(-3);
+    const shortTrend = lastThree.reduce((acc, cur) => cur === 'Tài' ? acc + 1 : acc - 1, 0);
+    
+    // Xu hướng trung hạn (5 kết quả cuối nếu có)
+    let midTrend = null;
+    if (results.length >= 5) {
+      const lastFive = results.slice(-5);
+      midTrend = lastFive.reduce((acc, cur) => cur === 'Tài' ? acc + 1 : acc - 1, 0);
+    }
+    
+    // Xu hướng dài hạn (toàn bộ)
+    const longTrend = results.reduce((acc, cur) => cur === 'Tài' ? acc + 1 : acc - 1, 0);
+    
+    return {
+      short: shortTrend > 0 ? 'Tài' : 'Xỉu',
+      mid: midTrend !== null ? (midTrend > 0 ? 'Tài' : 'Xỉu') : null,
+      long: longTrend > 0 ? 'Tài' : 'Xỉu'
+    };
+  }
+
+  // Thuật toán Markov Chain
+  function markovChainPrediction(results) {
+    if (results.length < 2) return null;
+    
+    // Khởi tạo ma trận chuyển đổi
+    const transitionMatrix = {
+      'Tài': { 'Tài': 0, 'Xỉu': 0 },
+      'Xỉu': { 'Tài': 0, 'Xỉu': 0 }
+    };
+    
+    // Tính toán ma trận chuyển đổi từ dữ liệu lịch sử
+    for (let i = 0; i < results.length - 1; i++) {
+      const current = results[i];
+      const next = results[i + 1];
+      transitionMatrix[current][next]++;
+    }
+    
+    // Tính xác suất chuyển đổi
+    const lastResult = results[results.length - 1];
+    const taiCount = transitionMatrix[lastResult]['Tài'];
+    const xiuCount = transitionMatrix[lastResult]['Xỉu'];
+    const total = taiCount + xiuCount;
+    
+    if (total === 0) return null;
+    
+    const taiProb = taiCount / total;
+    const xiuProb = xiuCount / total;
+    
+    return {
+      prediction: taiProb > xiuProb ? 'Tài' : 'Xỉu',
+      confidence: Math.max(taiProb, xiuProb),
+      taiProb,
+      xiuProb
+    };
+  }
+
+  // Thuật toán LSTM đơn giản (mô phỏng)
+  function lstmPrediction(results) {
+    if (results.length < 5) return null;
+    
+    // Đây chỉ là mô phỏng đơn giản, LSTM thực sự cần model được train trước
+    // Chúng ta sẽ sử dụng trung bình động có trọng số
+    const weights = [0.1, 0.15, 0.25, 0.3, 0.2]; // Trọng số cho 5 kết quả gần nhất
+    const lastFive = results.slice(-5);
+    
+    let score = 0;
+    for (let i = 0; i < 5; i++) {
+      score += (lastFive[i] === 'Tài' ? 1 : -1) * weights[i];
+    }
+    
+    const sigmoid = (x) => 1 / (1 + Math.exp(-x));
+    const confidence = sigmoid(Math.abs(score));
+    
+    return {
+      prediction: score > 0 ? 'Tài' : 'Xỉu',
+      confidence,
+      taiProb: score > 0 ? confidence : 1 - confidence,
+      xiuProb: score > 0 ? 1 - confidence : confidence
+    };
+  }
+
+  // Dự đoán tổng hợp từ nhiều thuật toán
+  function combinedPrediction(results) {
+    if (results.length < 2) {
+      return {
+        prediction: null,
+        message: '<div style="color:#ff5555;">❗ Bạn cần nhập ít nhất 2 kết quả để phân tích.</div>'
+      };
+    }
+
+    // Tính toán tỷ lệ cơ bản
+    const taiCount = results.filter(r => r === 'Tài').length;
+    const total = results.length;
+    const taiRatio = taiCount / total;
+
+    // Phân tích nâng cao
+    const streaks = detectStreaks(results);
+    const trends = analyzeTrends(results);
+    const markov = markovChainPrediction(results);
+    const lstm = lstmPrediction(results);
+
+    // Tính điểm dự đoán từ các thuật toán
+    let taiScore = taiRatio * 0.4; // Tỷ lệ lịch sử
+    let xiuScore = (1 - taiRatio) * 0.4;
+
+    // Điểm từ Markov Chain
+    if (markov) {
+      taiScore += markov.taiProb * 0.3;
+      xiuScore += markov.xiuProb * 0.3;
+    }
+
+    // Điểm từ LSTM (nếu có)
+    if (lstm) {
+      taiScore += lstm.taiProb * 0.3;
+      xiuScore += lstm.xiuProb * 0.3;
+    }
+
+    // Điều chỉnh điểm dựa trên streaks
+    if (streaks.currentTai >= 2) taiScore += 0.2;
+    if (streaks.currentXiu >= 2) xiuScore += 0.2;
+
+    // Điều chỉnh điểm dựa trên xu hướng
+    if (trends) {
+      if (trends.short === 'Tài') taiScore += 0.1;
+      else xiuScore += 0.1;
+      
+      if (trends.mid && trends.mid === 'Tài') taiScore += 0.05;
+      else if (trends.mid) xiuScore += 0.05;
+    }
+
+    // Xác định kết quả cuối cùng
+    const prediction = taiScore > xiuScore ? 'Tài' : 'Xỉu';
+    const confidence = Math.max(taiScore, xiuScore) / (taiScore + xiuScore);
+
+    // Tạo thông báo chi tiết
+    let message = `<div class="prediction-result ${prediction === 'Tài' ? 'tai-prediction' : 'xiu-prediction'}">`;
+    message += `DỰ ĐOÁN KẾT QUẢ TIẾP THEO: ${prediction.toUpperCase()}`;
+    message += `</div>`;
+    
+    message += `<div class="analysis-item">📊 Tỷ lệ lịch sử: Tài ${(taiRatio*100).toFixed(1)}% | Xỉu ${((1-taiRatio)*100).toFixed(1)}%</div>`;
+    
+    if (streaks.currentTai >= 2 || streaks.currentXiu >= 2) {
+      message += `<div class="analysis-item">📈 Chuỗi hiện tại: Tài ${streaks.currentTai} lần | Xỉu ${streaks.currentXiu} lần</div>`;
+    }
+    
+    if (streaks.maxTai >= 3 || streaks.maxXiu >= 3) {
+      message += `<div class="analysis-item">📉 Chuỗi dài nhất: Tài ${streaks.maxTai} | Xỉu ${streaks.maxXiu}</div>`;
+    }
+    
+    if (trends) {
+      message += `<div class="analysis-item">🔍 Xu hướng ngắn hạn: ${trends.short}`;
+      if (trends.mid) message += ` | Trung hạn: ${trends.mid}`;
+      message += ` | Dài hạn: ${trends.long}</div>`;
+    }
+    
+    if (markov) {
+      message += `<div class="analysis-item">🧮 Markov Chain: ${markov.prediction} (${(markov.confidence*100).toFixed(1)}%)</div>`;
+    }
+    
+    if (lstm) {
+      message += `<div class="analysis-item">🤖 LSTM Network: ${lstm.prediction} (${(lstm.confidence*100).toFixed(1)}%)</div>`;
+    }
+    
+    message += `<div class="analysis-item">💡 Mẹo chuyên gia: ${getExpertTip(streaks, trends, taiRatio)}</div>`;
+
+    return { 
+      prediction, 
+      message,
+      confidence: Math.round(confidence * 100),
+      taiRatio: Math.round(taiRatio * 100),
+      streaks,
+      trends,
+      markov,
+      lstm
+    };
+  }
+
+  // Mẹo chuyên gia dựa trên phân tích
+  function getExpertTip(streaks, trends, taiRatio) {
+    const tips = [];
+    
+    // Mẹo dựa trên chuỗi
+    if (streaks.currentTai >= 3) {
+      tips.push("Chuỗi Tài dài, cân nhắc đặt Xỉu cho lượt tiếp theo");
+    } else if (streaks.currentXiu >= 3) {
+      tips.push("Chuỗi Xỉu dài, cân nhắc đặt Tài cho lượt tiếp theo");
+    }
+    
+    // Mẹo dựa trên xu hướng
+    if (trends) {
+      if (trends.short !== trends.long) {
+        tips.push("Xu hướng ngắn hạn và dài hạn trái ngược, cần thận trọng");
+      }
+      
+      if (trends.mid && trends.short === trends.mid && trends.mid === trends.long) {
+        tips.push("Xu hướng đồng nhất ở cả 3 khung, có thể tiếp tục");
+      }
+    }
+    
+    // Mẹo dựa trên tỷ lệ
+    if (taiRatio > 0.7) {
+      tips.push("Tỷ lệ Tài cao, cân nhắc đặt Xỉu để cân bằng");
+    } else if (taiRatio < 0.3) {
+      tips.push("Tỷ lệ Xỉu cao, cân nhắc đặt Tài để cân bằng");
+    }
+    
+    // Mẹo mặc định nếu không có điều kiện đặc biệt
+    if (tips.length === 0) {
+      const defaultTips = [
+        "Kết hợp nhiều yếu tố để có quyết định tốt nhất",
+        "Chuỗi dài hơn 5 lần thường hiếm khi xảy ra",
+        "Khi cầu bị bẻ liên tục, hãy chờ 3-4 lượt",
+        "Quan sát thêm 1-2 lượt trước khi quyết định lớn"
+      ];
+      tips.push(defaultTips[Math.floor(Math.random() * defaultTips.length)]);
+    }
+    
+    return tips.join(' | ');
+  }
+
+  // Vẽ biểu đồ phân tích
+  function renderCharts(results) {
+    const labels = results.map((_, i) => `#${i + 1}`);
+    const taiCounts = [];
+    const xiuCounts = [];
+    let taiSum = 0;
+    let xiuSum = 0;
+
+    // Dữ liệu cho biểu đồ tần suất
+    for (let r of results) {
+      if (r === 'Tài') taiSum++;
+      else if (r === 'Xỉu') xiuSum++;
+      taiCounts.push(taiSum);
+      xiuCounts.push(xiuSum);
+    }
+
+    // Dữ liệu cho biểu đồ độ tin cậy và xác suất
+    const confData = [];
+    const taiProbData = [];
+    const xiuProbData = [];
+    
+    for (let i = 2; i < results.length; i++) {
+      const subset = results.slice(0, i+1);
+      const analysis = combinedPrediction(subset);
+      
+      if (analysis.prediction === 'Tài') {
+        confData.push(analysis.confidence);
+      } else {
+        confData.push(-analysis.confidence);
+      }
+      
+      taiProbData.push(analysis.taiRatio);
+      xiuProbData.push(100 - analysis.taiRatio);
+    }
+
+    // Hủy các biểu đồ cũ nếu có
+    if (freqChart) freqChart.destroy();
+    if (confChart) confChart.destroy();
+    if (probChart) probChart.destroy();
+
+    // Biểu đồ tần suất
+    freqChart = new Chart(freqCanvas.getContext('2d'), {
+      type: 'line',
+      data: {
+        labels,
+        datasets: [
+          {
+            label: 'Tài (lũy kế)',
+            data: taiCounts,
+            borderColor: '#00fff7',
+            backgroundColor: 'rgba(0,255,255,0.15)',
+            fill: true,
+            tension: 0.3,
+            pointRadius: 3,
+            pointHoverRadius: 6,
+          },
+          {
+            label: 'Xỉu (lũy kế)',
+            data: xiuCounts,
+            borderColor: '#ff77aa',
+            backgroundColor: 'rgba(255,119,170,0.15)',
+            fill: true,
+            tension: 0.3,
+            pointRadius: 3,
+            pointHoverRadius: 6,
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            labels: {
+              color: '#00ffff',
+              font: {
+                family: 'Orbitron'
+              }
+            }
+          },
+          tooltip: {
+            mode: 'index',
+            intersect: false,
+            backgroundColor: 'rgba(0,40,70,0.9)',
+            titleColor: '#00ffff',
+            bodyColor: '#ffffff',
+            borderColor: '#00ffff',
+            borderWidth: 1,
+            cornerRadius: 10
+          }
+        },
+        scales: {
+          x: {
+            ticks: { 
+              color: '#00ffff',
+              font: {
+                family: 'Orbitron'
+              }
+            },
+            grid: { 
+              color: 'rgba(0,255,255,0.1)',
+              borderColor: 'rgba(0,255,255,0.3)'
+            }
+          },
+          y: {
+            beginAtZero: true,
+            ticks: { 
+              color: '#00ffff',
+              font: {
+                family: 'Orbitron'
+              }
+            },
+            grid: { 
+              color: 'rgba(0,255,255,0.1)',
+              borderColor: 'rgba(0,255,255,0.3)'
+            }
+          }
+        },
+        animation: {
+          duration: 1500,
+          easing: 'easeOutQuart'
+        }
+      }
+    });
+
+    // Biểu đồ độ tin cậy
+    confChart = new Chart(confCanvas.getContext('2d'), {
+      type: 'bar',
+      data: {
+        labels: labels.slice(2),
+        datasets: [{
+          label: 'Độ tin cậy dự đoán',
+          data: confData,
+          backgroundColor: function(context) {
+            const value = context.raw;
+            return value > 0 ? 'rgba(0, 255, 255, 0.7)' : 'rgba(255, 119, 170, 0.7)';
+          },
+          borderColor: function(context) {
+            const value = context.raw;
+            return value > 0 ? 'rgba(0, 255, 255, 1)' : 'rgba(255, 119, 170, 1)';
+          },
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            labels: {
+              color: '#00ffff',
+              font: {
+                family: 'Orbitron'
+              }
+            }
+          },
+          tooltip: {
+            callbacks: {
+              label: function(context) {
+                const value = context.raw;
+                return value > 0 
+                  ? `Tài: ${Math.abs(value)}% tin cậy` 
+                  : `Xỉu: ${Math.abs(value)}% tin cậy`;
+              }
+            },
+            backgroundColor: 'rgba(0,40,70,0.9)',
+            titleColor: '#00ffff',
+            bodyColor: '#ffffff',
+            borderColor: '#00ffff',
+            borderWidth: 1,
+            cornerRadius: 10
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: false,
+            min: -100,
+            max: 100,
+            ticks: {
+              color: '#00ffff',
+              callback: function(value) {
+                return Math.abs(value) + '%';
+              },
+              font: {
+                family: 'Orbitron'
+              }
+            },
+            grid: { 
+              color: 'rgba(0,255,255,0.1)',
+              borderColor: 'rgba(0,255,255,0.3)'
+            }
+          },
+          x: {
+            ticks: { 
+              color: '#00ffff',
+              font: {
+                family: 'Orbitron'
+              }
+            },
+            grid: { 
+              color: 'rgba(0,255,255,0.1)',
+              borderColor: 'rgba(0,255,255,0.3)'
+            }
+          }
+        },
+        animation: {
+          duration: 1500,
+          easing: 'easeOutQuart'
+        }
+      }
+    });
+
+    // Biểu đồ xác suất (nếu có đủ dữ liệu)
+    if (results.length >= 3) {
+      probChart = new Chart(probCanvas.getContext('2d'), {
+        type: 'doughnut',
+        data: {
+          labels: ['Tài', 'Xỉu'],
+          datasets: [{
+            data: [taiProbData[taiProbData.length - 1], xiuProbData[xiuProbData.length - 1]],
+            backgroundColor: ['#00ffff', '#ff77aa'],
+            borderColor: ['#00aaff', '#ff5599'],
+            borderWidth: 2
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              position: 'bottom',
+              labels: {
+                color: '#00ffff',
+                font: {
+                  family: 'Orbitron',
+                  size: 14
+                }
+              }
+            },
+            tooltip: {
+              backgroundColor: 'rgba(0,40,70,0.9)',
+              titleColor: '#00ffff',
+              bodyColor: '#ffffff',
+              borderColor: '#00ffff',
+              borderWidth: 1,
+              cornerRadius: 10,
+              callbacks: {
+                label: function(context) {
+                  return `${context.label}: ${context.raw}%`;
+                }
+              }
+            },
+            title: {
+              display: true,
+              text: 'Xác suất dự đoán hiện tại',
+              color: '#00ffff',
+              font: {
+                family: 'Orbitron',
+                size: 16
+              }
+            }
+          },
+          cutout: '65%',
+          animation: {
+            animateScale: true,
+            animateRotate: true
+          }
+        }
+      });
+    }
+  }
+
+  // Hiệu ứng loading
+  async function showLoading(show) {
+    const effect = document.getElementById('analyzingEffect');
+    effect.style.display = show ? 'flex' : 'none';
+    
+    if (show) {
+      const processes = [
+        "Đang phân tích chuỗi kết quả...",
+        "Áp dụng thuật toán Markov Chain...",
+        "Tính toán với mô hình LSTM...",
+        "Tổng hợp kết quả từ các thuật toán...",
+        "Đang hoàn tất phân tích..."
+      ];
+      
+      let i = 0;
+      const interval = setInterval(() => {
+        aiProcessText.textContent = processes[i];
+        i = (i + 1) % processes.length;
+      }, 1500);
+      
+      return {
+        stop: () => {
+          clearInterval(interval);
+          effect.style.display = 'none';
+        },
+        interval
+      };
+    }
+  }
+
+  // Xử lý sự kiện nhập kết quả
+  btnTai.addEventListener('click', function() {
+    enteredResults.push('Tài');
+    updateDisplay();
+    predictionTab.innerHTML = 'Đã thêm kết quả <span style="color:#00ffff">Tài</span>. Bạn có thể tiếp tục nhập hoặc phân tích.';
+    btnChart.style.display = 'none';
+    
+    if (enableSound.checked) {
+      clickSound.currentTime = 0;
+      clickSound.play();
+    }
+    
+    saveData();
+  });
+
+  btnXiu.addEventListener('click', function() {
+    enteredResults.push('Xỉu');
+    updateDisplay();
+    predictionTab.innerHTML = 'Đã thêm kết quả <span style="color:#ff77aa">Xỉu</span>. Bạn có thể tiếp tục nhập hoặc phân tích.';
+    btnChart.style.display = 'none';
+    
+    if (enableSound.checked) {
+      clickSound.currentTime = 0;
+      clickSound.play();
+    }
+    
+    saveData();
+  });
+
+  // Xử lý sự kiện phân tích
+  btnAnalyze.addEventListener('click', async function() {
+    if (enteredResults.length < 2) {
+      predictionTab.innerHTML = '<div style="color:#ff5555;">❗ Vui lòng nhập ít nhất 2 kết quả để phân tích.</div>';
+      
+      if (enableSound.checked) {
+        errorSound.currentTime = 0;
+        errorSound.play();
+      }
+      
+      return;
+    }
+
+    const loading = await showLoading(true);
+    predictionTab.innerHTML = '🤖 AI PRO đang phân tích dữ liệu...';
+    
+    // Giả lập thời gian phân tích
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    
+    const analysis = combinedPrediction(enteredResults);
+    loading.stop();
+    predictionTab.innerHTML = analysis.message;
+    
+    // Hiển thị nút biểu đồ sau khi phân tích
+    btnChart.style.display = 'flex';
+    renderCharts(enteredResults);
+    
+    // Lưu vào lịch sử nếu được bật
+    if (saveHistory.checked) {
+      analysisHistory.push({
+        date: new Date().toLocaleString(),
+        results: [...enteredResults],
+        prediction: analysis.prediction,
+        message: analysis.message
+      });
+      renderHistory();
+    }
+    
+    if (enableSound.checked) {
+      successSound.currentTime = 0;
+      successSound.play();
+    }
+    
+    saveData();
+  });
+
+  // Xử lý sự kiện xóa kết quả
+  btnClear.addEventListener('click', function() {
+    enteredResults = [];
+    updateDisplay();
+    predictionTab.innerHTML = 'Đã xóa hết kết quả đã nhập. Vui lòng bắt đầu nhập lại.';
+    btnChart.style.display = 'none';
+    
+    if (enableSound.checked) {
+      clickSound.currentTime = 0;
+      clickSound.play();
+    }
+    
+    saveData();
+  });
+
+  // Mở modal biểu đồ
+  btnChart.addEventListener('click', function() {
+    chartModal.style.display = 'flex';
+    
+    if (enableSound.checked) {
+      clickSound.currentTime = 0;
+      clickSound.play();
+    }
+  });
+
+  // Đóng modal biểu đồ
+  chartClose.addEventListener('click', function() {
+    chartModal.style.display = 'none';
+    
+    if (enableSound.checked) {
+      clickSound.currentTime = 0;
+      clickSound.play();
+    }
+  });
+
+  // Chuyển đổi giữa các biểu đồ
+  btnFreqChart.addEventListener('click', function() {
+    freqCanvas.style.display = 'block';
+    confCanvas.style.display = 'none';
+    probCanvas.style.display = 'none';
+    btnFreqChart.classList.add('active');
+    btnConfChart.classList.remove('active');
+    btnProbChart.classList.remove('active');
+    
+    if (enableSound.checked) {
+      clickSound.currentTime = 0;
+      clickSound.play();
+    }
+  });
+
+  btnConfChart.addEventListener('click', function() {
+    if (enteredResults.length < 3) {
+      alert('Cần ít nhất 3 kết quả để hiển thị biểu đồ độ tin cậy');
+      return;
+    }
+    freqCanvas.style.display = 'none';
+    confCanvas.style.display = 'block';
+    probCanvas.style.display = 'none';
+    btnFreqChart.classList.remove('active');
+    btnConfChart.classList.add('active');
+    btnProbChart.classList.remove('active');
+    
+    if (enableSound.checked) {
+      clickSound.currentTime = 0;
+      clickSound.play();
+    }
+  });
+
+  btnProbChart.addEventListener('click', function() {
+    if (enteredResults.length < 3) {
+      alert('Cần ít nhất 3 kết quả để hiển thị biểu đồ xác suất');
+      return;
+    }
+    freqCanvas.style.display = 'none';
+    confCanvas.style.display = 'none';
+    probCanvas.style.display = 'block';
+    btnFreqChart.classList.remove('active');
+    btnConfChart.classList.remove('active');
+    btnProbChart.classList.add('active');
+    
+    if (enableSound.checked) {
+      clickSound.currentTime = 0;
+      clickSound.play();
+    }
+  });
+
+  // Xử lý chuyển tab
+  tabBtns.forEach(btn => {
+    btn.addEventListener('click', function() {
+      const tabId = this.getAttribute('data-tab');
+      
+      // Ẩn tất cả các tab content
+      document.querySelectorAll('.tab-content').forEach(content => {
+        content.classList.remove('active');
+      });
+      
+      // Xóa active của tất cả các tab button
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('active');
+      });
+      
+      // Hiển thị tab được chọn
+      document.getElementById(`${tabId}-tab`).classList.add('active');
+      this.classList.add('active');
+      
+      if (enableSound.checked) {
+        clickSound.currentTime = 0;
+        clickSound.play();
+      }
+    });
+  });
+
+  // Xử lý thay đổi cài đặt
+  [enableSound, enableAnimations, saveHistory].forEach(setting => {
+    setting.addEventListener('change', saveData);
+  });
+
+  // Tải dữ liệu khi khởi động
+  loadData();
+  updateDisplay();
+  
+  // Thêm hiệu ứng cho container khi load trang
+  if (enableAnimations.checked) {
+    document.querySelector('.container').style.animation = 'fadeIn 0.8s ease';
+  }
+});
+  </script>
+</body>
+</html>

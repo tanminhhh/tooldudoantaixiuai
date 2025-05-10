@@ -1119,8 +1119,8 @@ function getPatternCounts() {
 
 function drawChart() {
   const canvas = document.getElementById('chartCanvas');
-  const context = canvas.getContext('2d');
-
+  canvas.width = canvas.offsetWidth;
+  canvas.height = canvas.offsetHeight;
   canvas.width = canvas.parentElement.clientWidth * 0.9;
   canvas.height = 400;
 
@@ -1144,6 +1144,7 @@ function drawChart() {
     case 'pattern':
       drawPatternChart(context, canvas);
       break;
+      window.addEventListener('resize', drawChart);
   }
 }
 

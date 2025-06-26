@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soi Cầu Baccarat</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1><i class="fas fa-spades"></i> Soi Cầu Baccarat</h1>
+            <p>Advanced Pattern Analysis & Statistical Prediction</p>
+            <p style="font-size: 0.9em; color: #ffd700; margin-top: 10px;">Created by ToolByTanMinhDev</p>
+            <p style="font-size: 0.8em; color: #ff6b6b; margin-top: 10px; font-weight: bold;">
+                ⚠️ CẢNH BÁO: Tool chỉ phân tích pattern, không đảm bảo thắng. Baccarat là game may rủi - hãy chơi có trách nhiệm!
+            </p>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Input Section -->
+            <section class="input-section">
+                <h2>Record Game Result</h2>
+                <div class="result-buttons">
+                    <button class="result-btn player-btn" data-result="P">
+                        <i class="fas fa-user"></i>
+                        Player
+                    </button>
+                    <button class="result-btn banker-btn" data-result="B">
+                        <i class="fas fa-home"></i>
+                        Banker
+                    </button>
+                    <button class="result-btn tie-btn" data-result="T">
+                        <i class="fas fa-handshake"></i>
+                        Tie
+                    </button>
+                </div>
+                
+                <div class="control-buttons">
+                    <button class="control-btn undo-btn" id="undoBtn">
+                        <i class="fas fa-undo"></i> Undo Last
+                    </button>
+                    <button class="control-btn clear-btn" id="clearBtn">
+                        <i class="fas fa-trash"></i> Clear All
+                    </button>
+                </div>
+            </section>
+
+            <!-- Game History Display -->
+            <section class="history-section">
+                <h3>Recent Results</h3>
+                <div class="history-display" id="historyDisplay">
+                    <p class="empty-state">No games recorded yet. Start by recording your first result!</p>
+                </div>
+                <div class="statistics-summary" id="statisticsSummary"></div>
+            </section>
+
+            <!-- Prediction Section -->
+            <section class="prediction-section">
+                <h2>Next Game Prediction</h2>
+                <div class="prediction-display" id="predictionDisplay">
+                    <p class="empty-state">Record at least 5 games to see predictions</p>
+                </div>
+                
+                <div class="prediction-details" id="predictionDetails"></div>
+            </section>
+
+            <!-- AI Dashboard -->
+            <section class="ai-dashboard">
+                <h2>🤖 AI Analysis Dashboard</h2>
+                <div class="ai-metrics">
+                    <div class="ai-metric">
+                        <div class="metric-label">Neural Network</div>
+                        <div class="metric-value" id="neuralStatus">Analyzing...</div>
+                        <div class="metric-bar">
+                            <div class="metric-fill neural-fill" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    <div class="ai-metric">
+                        <div class="metric-label">Quantum Analysis</div>
+                        <div class="metric-value" id="quantumStatus">Processing...</div>
+                        <div class="metric-bar">
+                            <div class="metric-fill quantum-fill" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    <div class="ai-metric">
+                        <div class="metric-label">Genetic Algorithm</div>
+                        <div class="metric-value" id="geneticStatus">Evolving...</div>
+                        <div class="metric-bar">
+                            <div class="metric-fill genetic-fill" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    <div class="ai-metric">
+                        <div class="metric-label">Deep Learning</div>
+                        <div class="metric-value" id="deepLearningStatus">Training...</div>
+                        <div class="metric-bar">
+                            <div class="metric-fill deep-fill" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Analysis Section -->
+            <section class="analysis-section">
+                <h3>🔬 Advanced Pattern Analysis</h3>
+                <div class="analysis-tabs">
+                    <button class="tab-btn active" data-tab="trends">🔄 AI Trends</button>
+                    <button class="tab-btn" data-tab="patterns">🧬 Deep Patterns</button>
+                    <button class="tab-btn" data-tab="statistics">📊 Quantum Stats</button>
+                    <button class="tab-btn" data-tab="neural">🧠 Neural Insights</button>
+                </div>
+                
+                <div class="tab-content">
+                    <div class="tab-panel active" id="trends-panel">
+                        <div class="trend-analysis" id="trendAnalysis"></div>
+                    </div>
+                    <div class="tab-panel" id="patterns-panel">
+                        <div class="pattern-analysis" id="patternAnalysis"></div>
+                    </div>
+                    <div class="tab-panel" id="statistics-panel">
+                        <div class="statistics-analysis" id="statisticsAnalysis"></div>
+                    </div>
+                    <div class="tab-panel" id="neural-panel">
+                        <div class="neural-analysis" id="neuralAnalysis"></div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Instructions Modal -->
+        <div class="modal" id="instructionsModal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>How to Use Soi Cầu Baccarat</h2>
+                <div class="instructions">
+                    <h3>Getting Started:</h3>
+                    <ol>
+                        <li>Record game results by clicking Player, Banker, or Tie buttons</li>
+                        <li>Build a history of at least 5 games for basic predictions</li>
+                        <li>View real-time pattern analysis and statistical insights</li>
+                    </ol>
+                    
+                    <h3>Prediction Algorithms:</h3>
+                    <ul>
+                        <li><strong>Trend Analysis:</strong> Identifies hot and cold streaks</li>
+                        <li><strong>Pattern Recognition:</strong> Detects recurring sequences</li>
+                        <li><strong>Statistical Analysis:</strong> Calculates probability based on history</li>
+                    </ul>
+                    
+                    <h3>Understanding Confidence Levels:</h3>
+                    <ul>
+                        <li><strong>Very High (85%+):</strong> Multiple algorithms agree strongly</li>
+                        <li><strong>High (70-85%):</strong> Strong pattern detected</li>
+                        <li><strong>Medium (50-70%):</strong> Moderate confidence</li>
+                        <li><strong>Low (<50%):</strong> Weak signal, use caution</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Help Button -->
+        <button class="help-btn" id="helpBtn">
+            <i class="fas fa-question"></i>
+        </button>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>For entertainment purposes only. Gambling involves risk.</p>
+        </footer>
+    </div>
+
+    <script src="algorithms.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
